@@ -4,4 +4,8 @@
 
 A plot I made for the PP455
 
-![Figure_1](figures/newplot.png)
+![Figure](newplot.png)
+
+
+
+
