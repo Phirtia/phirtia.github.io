@@ -100,6 +100,9 @@
 
     <!-- About the CEO Section -->
     <section id="about-ceo" class="container">
+    <div style="flex: 1; min-width: 250px;">
+        <img src="IMG_4650.JPG" alt="Phirtia Silva" style="width: 100%; border-radius: 12px;">
+    </div>
         <h1>About the CEO</h1>
         <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/phirtia-silva" target="_blank">Phirtia Silva</a></p>
         <p>Phirtia Silva is a Brazilian social and data scientist with a remarkable track record in public policy analysis, human rights, and digital transformation. She is the founder of D3S Consultoria, a nonprofit organization that promotes social impact across Brazil and Latin America through data-driven strategies and the use of social impact technologies within the Third Sector.</p>
