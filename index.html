@@ -9,28 +9,23 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 
   <style>
-    /* ── CSS Variables ── */
     :root {
       --navy:       #0d1b2a;
       --navy-mid:   #112236;
       --navy-light: #1a3050;
       --teal:       #00c2a8;
-      --teal-dim:   #009e89;
       --gold:       #f5c842;
       --text:       #e8edf2;
       --text-muted: #8fa3b8;
       --border:     rgba(0, 194, 168, 0.18);
-      --card-bg:    rgba(17, 34, 54, 0.85);
+      --card-bg:    rgba(17, 34, 54, 0.88);
       --font-serif: 'DM Serif Display', Georgia, serif;
       --font-sans:  'DM Sans', sans-serif;
       --font-mono:  'Space Mono', monospace;
     }
 
-    /* ── Reset & Base ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; font-size: 16px; }
-
+    html { scroll-behavior: smooth; }
     body {
       background-color: var(--navy);
       color: var(--text);
@@ -38,1238 +33,910 @@
       line-height: 1.7;
       overflow-x: hidden;
     }
-
     ::selection { background: var(--teal); color: var(--navy); }
-
     a { color: var(--teal); text-decoration: none; transition: color .2s; }
     a:hover { color: var(--gold); }
-
     img { max-width: 100%; display: block; }
 
-    /* ── Noise overlay ── */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 0;
-      opacity: .35;
+      opacity: .3;
     }
 
-    /* ── Navigation ── */
+    /* ── NAV ── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
+      position: fixed; top: 0; left: 0; right: 0;
       z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.25rem 4rem;
-      background: rgba(13, 27, 42, 0.85);
-      backdrop-filter: blur(12px);
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(13,27,42,0.88);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
       transition: padding .3s;
     }
-
-    nav .logo {
-      font-family: var(--font-mono);
-      font-size: .85rem;
-      color: var(--teal);
-      letter-spacing: .15em;
-      text-transform: uppercase;
-    }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 2.5rem;
-    }
-
-    nav ul a {
-      font-size: .8rem;
-      font-weight: 500;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      transition: color .2s;
-    }
-
+    nav .logo { font-family: var(--font-mono); font-size: .82rem; color: var(--teal); letter-spacing: .15em; text-transform: uppercase; }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a { font-size: .75rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); transition: color .2s; }
     nav ul a:hover { color: var(--teal); }
 
-    /* ── Section layout ── */
+    /* ── LAYOUT ── */
     section {
-      position: relative;
-      z-index: 1;
+      position: relative; z-index: 1;
       padding: 7rem 4rem;
-      max-width: 1200px;
-      margin: 0 auto;
+      max-width: 1200px; margin: 0 auto;
     }
 
     .section-label {
-      font-family: var(--font-mono);
-      font-size: .72rem;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--teal);
+      font-family: var(--font-mono); font-size: .7rem; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--teal);
       margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: .75rem;
+      display: flex; align-items: center; gap: .75rem;
     }
+    .section-label::after { content: ''; display: block; height: 1px; width: 3rem; background: var(--teal); opacity: .45; }
 
-    .section-label::after {
-      content: '';
-      display: block;
-      height: 1px;
-      width: 3rem;
-      background: var(--teal);
-      opacity: .5;
+    h2 { font-family: var(--font-serif); font-size: clamp(2rem,4vw,3rem); font-weight: 400; line-height: 1.15; margin-bottom: 1rem; }
+    h3 { font-family: var(--font-serif); font-size: 1.65rem; font-weight: 400; }
+
+    .divider { width: 100%; height: 1px; background: linear-gradient(90deg, transparent, var(--teal), transparent); opacity: .2; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.75rem; border-radius: 2px;
+      font-size: .8rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+      cursor: pointer; transition: all .2s;
     }
+    .btn-primary { background: var(--teal); color: var(--navy); border: 1px solid var(--teal); }
+    .btn-primary:hover { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+    .btn-outline { background: transparent; color: var(--teal); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--teal); color: var(--gold); }
 
-    h2 {
-      font-family: var(--font-serif);
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 400;
-      color: var(--text);
-      line-height: 1.15;
-      margin-bottom: 1rem;
-    }
+    /* ── TAGS ── */
+    .tags { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .tag { font-size: .72rem; font-weight: 500; padding: .3rem .8rem; border-radius: 2px; letter-spacing: .04em; }
+    .tag-teal  { background: rgba(0,194,168,.1);  color: var(--teal); border: 1px solid rgba(0,194,168,.22); }
+    .tag-gold  { background: rgba(245,200,66,.08); color: var(--gold); border: 1px solid rgba(245,200,66,.18); }
+    .tag-muted { background: var(--navy-light); color: var(--text-muted); border: 1px solid var(--border); }
 
-    h3 {
-      font-family: var(--font-serif);
-      font-size: 1.5rem;
-      font-weight: 400;
-      color: var(--text);
-    }
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeIn  { from { opacity:0; } to { opacity:1; } }
+    .reveal { opacity:0; transform:translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
 
-    /* ── Hero ── */
+    /* ── HERO ── */
     #hero {
       min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 6rem;
-      padding-top: 9rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding-left: 4rem;
-      padding-right: 4rem;
-    }
-
-    .hero-text .eyebrow {
-      font-family: var(--font-mono);
-      font-size: .78rem;
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp .7s .2s forwards;
-    }
-
-    .hero-text h1 {
-      font-family: var(--font-serif);
-      font-size: clamp(3rem, 6vw, 5.5rem);
-      line-height: 1.0;
-      font-weight: 400;
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp .7s .35s forwards;
-    }
-
-    .hero-text h1 em {
-      font-style: italic;
-      color: var(--teal);
-    }
-
-    .hero-text .tagline {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      max-width: 36ch;
-      margin-bottom: 2.5rem;
-      border-left: 2px solid var(--teal);
-      padding-left: 1.25rem;
-      opacity: 0;
-      animation: fadeUp .7s .5s forwards;
-    }
-
-    .hero-ctas {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp .7s .65s forwards;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .75rem 1.75rem;
-      border-radius: 2px;
-      font-size: .82rem;
-      font-weight: 600;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all .2s;
-    }
-
-    .btn-primary {
-      background: var(--teal);
-      color: var(--navy);
-      border: 1px solid var(--teal);
-    }
-
-    .btn-primary:hover {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: var(--navy);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--teal);
-      border: 1px solid var(--border);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--teal);
-      color: var(--gold);
-    }
-
-    .hero-image {
-      display: flex;
-      justify-content: center;
-      opacity: 0;
-      animation: fadeIn .9s .4s forwards;
-    }
-
-    .hero-image .photo-wrap {
-      position: relative;
-      width: 340px;
-    }
-
-    .hero-image .photo-wrap::before {
-      content: '';
-      position: absolute;
-      inset: -8px;
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      z-index: -1;
-    }
-
-    .hero-image .photo-wrap::after {
-      content: '';
-      position: absolute;
-      bottom: -16px; right: -16px;
-      width: 60%; height: 60%;
-      background: linear-gradient(135deg, var(--teal) 0%, transparent 60%);
-      opacity: .15;
-      z-index: -1;
-    }
-
-    .hero-image img {
-      width: 100%;
-      border-radius: 2px;
-      filter: grayscale(15%);
-      object-fit: cover;
-      aspect-ratio: 3/4;
-    }
-
-    .hero-stats {
-      display: flex;
-      gap: 2.5rem;
-      margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
-      opacity: 0;
-      animation: fadeUp .7s .8s forwards;
-    }
-
-    .hero-stats .stat .num {
-      font-family: var(--font-serif);
-      font-size: 2rem;
-      color: var(--teal);
-    }
-
-    .hero-stats .stat .lbl {
-      font-size: .78rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: .1em;
-    }
-
-    /* ── About ── */
-    #about {
-      border-top: 1px solid var(--border);
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1.4fr;
-      gap: 5rem;
-      align-items: start;
-      margin-top: 3rem;
-    }
-
-    .about-left p {
-      color: var(--text-muted);
-      font-size: .95rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .about-left .quote-block {
-      margin-top: 2rem;
-      border-left: 3px solid var(--teal);
-      padding: 1rem 1.5rem;
-      background: var(--card-bg);
-      border-radius: 0 4px 4px 0;
-    }
-
-    .about-left .quote-block p {
-      color: var(--text);
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: 1.1rem;
-      margin: 0;
-    }
-
-    .edu-list {
-      list-style: none;
-    }
-
-    .edu-list li {
-      display: flex;
-      gap: 1.25rem;
-      padding: 1.25rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .edu-list li:last-child { border-bottom: none; }
-
-    .edu-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: var(--teal);
-      margin-top: .45rem;
-      flex-shrink: 0;
-    }
-
-    .edu-info .deg {
-      font-weight: 600;
-      font-size: .95rem;
-    }
-
-    .edu-info .school {
-      font-size: .85rem;
-      color: var(--teal);
-    }
-
-    .edu-info .years {
-      font-size: .78rem;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-    }
-
-    /* ── Skills ── */
-    #skills {
-      border-top: 1px solid var(--border);
-      background: linear-gradient(180deg, transparent 0%, rgba(0,194,168,.03) 100%);
-    }
-
-    .skills-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      margin-top: 3rem;
-    }
-
-    .skill-bars {
-      display: flex;
-      flex-direction: column;
-      gap: 1.75rem;
-    }
-
-    .skill-item .skill-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: .5rem;
-      font-size: .85rem;
-    }
-
-    .skill-item .skill-name { color: var(--text); font-weight: 500; }
-    .skill-item .skill-pct { color: var(--teal); font-family: var(--font-mono); font-size: .78rem; }
-
-    .bar-track {
-      height: 4px;
-      background: var(--navy-light);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--teal), var(--gold));
-      border-radius: 2px;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 1.2s cubic-bezier(.4,0,.2,1);
-    }
-
-    .bar-fill.animated { transform: scaleX(1); }
-
-    .tags-section h4 {
-      font-family: var(--font-mono);
-      font-size: .72rem;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 1.25rem;
-    }
-
-    .tags-group { margin-bottom: 2rem; }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .5rem;
-    }
-
-    .tag {
-      font-size: .75rem;
-      font-weight: 500;
-      padding: .35rem .85rem;
-      border-radius: 2px;
-      letter-spacing: .05em;
-    }
-
-    .tag-teal  { background: rgba(0,194,168,.12); color: var(--teal); border: 1px solid rgba(0,194,168,.25); }
-    .tag-gold  { background: rgba(245,200,66,.1);  color: var(--gold);  border: 1px solid rgba(245,200,66,.2); }
-    .tag-muted { background: var(--navy-light);    color: var(--text-muted); border: 1px solid var(--border); }
-
-    .languages {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-top: 1rem;
-    }
-
-    .lang-badge {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 64px; height: 64px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      justify-content: center;
-      gap: .15rem;
-      transition: border-color .2s;
-    }
-
-    .lang-badge:hover { border-color: var(--teal); }
-
-    .lang-badge .code {
-      font-family: var(--font-mono);
-      font-size: .85rem;
-      font-weight: 700;
-      color: var(--teal);
-    }
-
-    .lang-badge .level {
-      font-size: .6rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: .05em;
-    }
-
-    /* ── Projects ── */
-    #projects {
-      border-top: 1px solid var(--border);
-    }
-
-    .featured-project {
-      margin-top: 3rem;
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 3rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .featured-project::before {
-      content: 'FEATURED';
-      position: absolute;
-      top: 1.25rem; right: 1.25rem;
-      font-family: var(--font-mono);
-      font-size: .65rem;
-      letter-spacing: .2em;
-      color: var(--gold);
-      background: rgba(245,200,66,.1);
-      border: 1px solid rgba(245,200,66,.2);
-      padding: .25rem .75rem;
-      border-radius: 2px;
-    }
-
-    .featured-project .proj-img img {
-      border-radius: 4px;
-      width: 100%;
-      aspect-ratio: 4/3;
-      object-fit: cover;
-      filter: saturate(80%);
-      transition: filter .3s;
-    }
-
-    .featured-project:hover .proj-img img { filter: saturate(100%); }
-
-    .proj-info .proj-tags {
-      display: flex;
-      gap: .5rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.25rem;
-    }
-
-    .proj-info h3 {
-      margin-bottom: .75rem;
-      font-size: 1.7rem;
-    }
-
-    .proj-info p {
-      color: var(--text-muted);
-      font-size: .92rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .proj-link {
-      font-family: var(--font-mono);
-      font-size: .75rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--teal);
-      border-bottom: 1px solid var(--border);
-      padding-bottom: .15rem;
-      display: inline-block;
-      transition: border-color .2s, color .2s;
-    }
-
-    .proj-link:hover { border-color: var(--teal); color: var(--gold); }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 2.5rem;
-    }
-
-    .project-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 1.75rem;
-      transition: border-color .3s, transform .3s;
-      position: relative;
-    }
-
-    .project-card:hover {
-      border-color: var(--teal);
-      transform: translateY(-4px);
-    }
-
-    .project-card .card-cat {
-      font-family: var(--font-mono);
-      font-size: .65rem;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: var(--teal);
-      margin-bottom: .75rem;
-    }
-
-    .project-card h4 {
-      font-family: var(--font-serif);
-      font-size: 1.15rem;
-      font-weight: 400;
-      margin-bottom: .75rem;
-      color: var(--text);
-    }
-
-    .project-card p {
-      font-size: .85rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 1.25rem;
-    }
-
-    /* ── Advocacy / NGO ── */
-    #advocacy {
-      border-top: 1px solid var(--border);
-    }
-
-    .advocacy-wrap {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      margin-top: 3rem;
-      align-items: start;
-    }
-
-    .advocacy-text p {
-      color: var(--text-muted);
-      font-size: .95rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .impact-numbers {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .impact-num {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 1.25rem;
-      text-align: center;
-      transition: border-color .2s;
-    }
-
-    .impact-num:hover { border-color: var(--teal); }
-
-    .impact-num .big {
-      font-family: var(--font-serif);
-      font-size: 2rem;
-      color: var(--teal);
-      display: block;
-    }
-
-    .impact-num .desc {
-      font-size: .78rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: .07em;
-    }
-
-    .advocacy-img img {
-      width: 100%;
-      border-radius: 4px;
-      aspect-ratio: 4/3;
-      object-fit: cover;
-    }
-
-    /* ── Awards ── */
-    #awards {
-      border-top: 1px solid var(--border);
-    }
-
-    .awards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-
-    .award-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 5rem;
+      padding-top: 9rem; padding-bottom: 4rem;
+      max-width: 1200px; margin: 0 auto;
+      padding-left: 4rem; padding-right: 4rem;
+    }
+    .hero-text .eyebrow { font-family: var(--font-mono); font-size: .76rem; letter-spacing: .22em; text-transform: uppercase; color: var(--teal); margin-bottom: 1.5rem; opacity:0; animation: fadeUp .7s .2s forwards; }
+    .hero-text h1 { font-family: var(--font-serif); font-size: clamp(3rem,6vw,5.5rem); line-height: 1.0; font-weight: 400; margin-bottom: 1.5rem; opacity:0; animation: fadeUp .7s .35s forwards; }
+    .hero-text h1 em { font-style: italic; color: var(--teal); }
+    .hero-text .tagline { font-size: 1rem; color: var(--text-muted); max-width: 38ch; margin-bottom: 2.5rem; border-left: 2px solid var(--teal); padding-left: 1.25rem; opacity:0; animation: fadeUp .7s .5s forwards; }
+    .hero-ctas { display:flex; gap:1rem; flex-wrap:wrap; opacity:0; animation: fadeUp .7s .65s forwards; }
+    .hero-stats { display:flex; gap:2.5rem; margin-top:2.5rem; padding-top:2rem; border-top:1px solid var(--border); opacity:0; animation: fadeUp .7s .8s forwards; flex-wrap:wrap; }
+    .hero-stats .stat .num { font-family: var(--font-serif); font-size: 1.9rem; color: var(--teal); }
+    .hero-stats .stat .lbl { font-size: .74rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .1em; }
+    .hero-image { display:flex; justify-content:center; opacity:0; animation: fadeIn .9s .4s forwards; }
+    .hero-image .photo-wrap { position:relative; width:340px; }
+    .hero-image .photo-wrap::before { content:''; position:absolute; inset:-8px; border:1px solid var(--border); border-radius:2px; z-index:-1; }
+    .hero-image .photo-wrap::after { content:''; position:absolute; bottom:-16px; right:-16px; width:60%; height:60%; background:linear-gradient(135deg,var(--teal) 0%,transparent 60%); opacity:.12; z-index:-1; }
+    .hero-image img { width:100%; border-radius:2px; filter:grayscale(10%); object-fit:cover; aspect-ratio:3/4; }
+
+    /* ── DIFFERENTIAL ── */
+    #differential { border-top: 1px solid var(--border); background: linear-gradient(180deg, rgba(0,194,168,.03) 0%, transparent 100%); }
+    .diff-grid { display:grid; grid-template-columns: repeat(3,1fr); gap:1.5rem; margin-top:3rem; }
+    .diff-card {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius:4px;
       padding: 2rem 1.75rem;
-      text-align: center;
       transition: border-color .3s, transform .3s;
+      position: relative; overflow: hidden;
     }
+    .diff-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--teal),var(--gold)); opacity:0; transition: opacity .3s; }
+    .diff-card:hover { border-color: var(--teal); transform: translateY(-4px); }
+    .diff-card:hover::before { opacity:1; }
+    .diff-card .diff-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+    .diff-card h4 { font-family: var(--font-serif); font-size:1.1rem; font-weight:400; margin-bottom:.65rem; color:var(--text); }
+    .diff-card p { font-size:.84rem; color:var(--text-muted); line-height:1.65; }
 
-    .award-card:hover {
-      border-color: var(--gold);
-      transform: translateY(-4px);
+    /* ── EXPERIENCE ── */
+    #experience { border-top: 1px solid var(--border); }
+    .exp-timeline { margin-top:3rem; display:flex; flex-direction:column; gap:0; }
+    .exp-item {
+      display: grid; grid-template-columns: 220px 1fr;
+      gap: 2.5rem; padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
     }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-meta { padding-top:.1rem; }
+    .exp-meta .exp-period { font-family: var(--font-mono); font-size:.72rem; color:var(--teal); letter-spacing:.1em; margin-bottom:.4rem; }
+    .exp-meta .exp-org { font-size:.82rem; color:var(--text-muted); }
+    .exp-meta .exp-loc { font-size:.75rem; color:var(--text-muted); opacity:.7; }
+    .exp-content .exp-title { font-family: var(--font-serif); font-size:1.3rem; font-weight:400; margin-bottom:.6rem; color:var(--text); }
+    .exp-content .exp-context { font-size:.82rem; color:var(--teal); margin-bottom:.75rem; font-style:italic; }
+    .exp-content p { font-size:.88rem; color:var(--text-muted); margin-bottom:1rem; line-height:1.65; }
+    .exp-content .exp-tags { margin-top:.75rem; }
 
-    .award-card .award-year {
-      font-family: var(--font-mono);
-      font-size: .78rem;
-      color: var(--teal);
-      letter-spacing: .12em;
-      margin-bottom: .5rem;
+    /* ── SKILLS ── */
+    #skills { border-top: 1px solid var(--border); }
+    .skills-outer { display:grid; grid-template-columns:1fr 1fr; gap:4rem; margin-top:3rem; }
+    .skill-col h4 { font-family:var(--font-mono); font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text-muted); margin-bottom:1.5rem; padding-bottom:.5rem; border-bottom:1px solid var(--border); }
+    .skill-bars { display:flex; flex-direction:column; gap:1.6rem; margin-bottom:2.5rem; }
+    .skill-item .skill-header { display:flex; justify-content:space-between; margin-bottom:.45rem; font-size:.84rem; }
+    .skill-name { color:var(--text); font-weight:500; }
+    .skill-pct  { color:var(--teal); font-family:var(--font-mono); font-size:.76rem; }
+    .bar-track { height:3px; background:var(--navy-light); border-radius:2px; overflow:hidden; }
+    .bar-fill { height:100%; background:linear-gradient(90deg,var(--teal),var(--gold)); border-radius:2px; width:0%; transition:width 1.3s cubic-bezier(.4,0,.2,1); }
+    .stack-section { margin-bottom:2rem; }
+    .stack-section h5 { font-family:var(--font-mono); font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; color:var(--text-muted); margin-bottom:.75rem; }
+    .lang-badges { display:flex; gap:.85rem; flex-wrap:wrap; margin-top:.5rem; }
+    .lang-badge { display:flex; flex-direction:column; align-items:center; width:62px; height:62px; border-radius:50%; border:2px solid var(--border); justify-content:center; gap:.1rem; transition:border-color .2s; }
+    .lang-badge:hover { border-color:var(--teal); }
+    .lang-badge .code { font-family:var(--font-mono); font-size:.82rem; font-weight:700; color:var(--teal); }
+    .lang-badge .level { font-size:.56rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:.05em; }
+
+    /* ── PROJECTS ── */
+    #projects { border-top: 1px solid var(--border); }
+    .project-full {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+      background: var(--card-bg); border:1px solid var(--border); border-radius:4px;
+      padding: 3rem; margin-bottom: 2rem;
+      position: relative; overflow: hidden;
+      transition: border-color .3s;
     }
-
-    .award-card .award-icon {
-      font-size: 2rem;
-      margin-bottom: 1rem;
+    .project-full:hover { border-color: rgba(0,194,168,.4); }
+    .project-full.reverse { direction: rtl; }
+    .project-full.reverse > * { direction: ltr; }
+    .project-full .badge-featured {
+      position:absolute; top:1.25rem; right:1.25rem;
+      font-family:var(--font-mono); font-size:.62rem; letter-spacing:.2em;
+      color:var(--gold); background:rgba(245,200,66,.08); border:1px solid rgba(245,200,66,.2);
+      padding:.22rem .7rem; border-radius:2px;
     }
+    .proj-img img { border-radius:4px; width:100%; aspect-ratio:4/3; object-fit:cover; filter:saturate(75%); transition:filter .35s; }
+    .project-full:hover .proj-img img { filter:saturate(100%); }
+    .proj-info .proj-tags-wrap { display:flex; gap:.45rem; flex-wrap:wrap; margin-bottom:1.25rem; }
+    .proj-info h3 { margin-bottom:.75rem; font-size:1.6rem; }
+    .proj-info p  { color:var(--text-muted); font-size:.9rem; margin-bottom:1.25rem; line-height:1.65; }
+    .proj-info p + p { margin-top:-.5rem; }
+    .proj-link { font-family:var(--font-mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--teal); border-bottom:1px solid rgba(0,194,168,.25); padding-bottom:.15rem; display:inline-block; transition:all .2s; }
+    .proj-link:hover { border-color:var(--teal); color:var(--gold); }
 
-    .award-card h4 {
-      font-family: var(--font-serif);
-      font-size: 1.1rem;
-      font-weight: 400;
-      margin-bottom: .5rem;
-      color: var(--text);
+    /* ── ADVOCACY ── */
+    #advocacy { border-top: 1px solid var(--border); }
+    .advocacy-wrap { display:grid; grid-template-columns:1fr 1fr; gap:4rem; margin-top:3rem; align-items:start; }
+    .advocacy-text p { color:var(--text-muted); font-size:.92rem; margin-bottom:1.25rem; }
+    .impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:2rem; }
+    .impact-num { background:var(--card-bg); border:1px solid var(--border); border-radius:4px; padding:1.1rem; text-align:center; transition:border-color .2s; }
+    .impact-num:hover { border-color:var(--teal); }
+    .impact-num .big { font-family:var(--font-serif); font-size:1.9rem; color:var(--teal); display:block; }
+    .impact-num .desc { font-size:.74rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:.07em; }
+    .advocacy-img img { width:100%; border-radius:4px; aspect-ratio:4/3; object-fit:cover; }
+
+    /* ── AWARDS ── */
+    #awards { border-top: 1px solid var(--border); }
+    .awards-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:3rem; }
+    .award-card { background:var(--card-bg); border:1px solid var(--border); border-radius:4px; padding:2rem 1.75rem; text-align:center; transition:border-color .3s, transform .3s; }
+    .award-card:hover { border-color:var(--gold); transform:translateY(-4px); }
+    .award-card .award-year { font-family:var(--font-mono); font-size:.76rem; color:var(--teal); letter-spacing:.12em; margin-bottom:.5rem; }
+    .award-card .award-icon { font-size:1.9rem; margin-bottom:.85rem; }
+    .award-card h4 { font-family:var(--font-serif); font-size:1.05rem; font-weight:400; margin-bottom:.5rem; color:var(--text); }
+    .award-card p  { font-size:.8rem; color:var(--text-muted); }
+
+    /* ── ABOUT / EDU ── */
+    #about { border-top: 1px solid var(--border); }
+    .about-grid { display:grid; grid-template-columns:1fr 1.4fr; gap:5rem; align-items:start; margin-top:3rem; }
+    .about-left p { color:var(--text-muted); font-size:.93rem; margin-bottom:1.2rem; }
+    .about-left .quote-block { margin-top:2rem; border-left:3px solid var(--teal); padding:1rem 1.5rem; background:var(--card-bg); border-radius:0 4px 4px 0; }
+    .about-left .quote-block p { color:var(--text); font-family:var(--font-serif); font-style:italic; font-size:1.05rem; margin:0; }
+    .edu-list { list-style:none; }
+    .edu-list li { display:flex; gap:1.2rem; padding:1.2rem 0; border-bottom:1px solid var(--border); }
+    .edu-list li:last-child { border-bottom:none; }
+    .edu-dot { width:9px; height:9px; border-radius:50%; background:var(--teal); margin-top:.5rem; flex-shrink:0; }
+    .edu-info .deg   { font-weight:600; font-size:.92rem; }
+    .edu-info .school { font-size:.82rem; color:var(--teal); }
+    .edu-info .years  { font-size:.75rem; color:var(--text-muted); font-family:var(--font-mono); }
+
+    /* ── COUNTRIES ── */
+    .countries-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; }
+    .country-card {
+      background: var(--card-bg); border:1px solid var(--border); border-radius:4px;
+      padding:1.25rem 1rem; text-align:center;
+      display:flex; flex-direction:column; align-items:center; gap:.35rem;
+      transition: border-color .25s, transform .25s;
     }
+    .country-card:hover { border-color:var(--teal); transform:translateY(-3px); }
+    .country-flag  { font-size:2rem; line-height:1; }
+    .country-name  { font-size:.82rem; font-weight:600; color:var(--text); }
+    .country-note  { font-size:.72rem; color:var(--teal); font-family:var(--font-mono); letter-spacing:.05em; }
 
-    .award-card p {
-      font-size: .82rem;
-      color: var(--text-muted);
-    }
+    /* ── CONTACT ── */
+    #contact { border-top: 1px solid var(--border); text-align:center; padding-bottom:6rem; }
+    #contact h2 { font-size: clamp(2.5rem,5vw,4rem); }
+    #contact .sub { color:var(--text-muted); font-size:.93rem; max-width:48ch; margin:1rem auto 2.5rem; }
+    .contact-links { display:flex; justify-content:center; flex-wrap:wrap; gap:1.25rem; margin-top:2.5rem; }
+    .contact-item { display:flex; align-items:center; gap:.55rem; font-size:.82rem; color:var(--text-muted); border:1px solid var(--border); padding:.7rem 1.4rem; border-radius:2px; transition:all .2s; }
+    .contact-item:hover { border-color:var(--teal); color:var(--teal); }
 
-    /* ── Contact ── */
-    #contact {
-      border-top: 1px solid var(--border);
-      text-align: center;
-      padding-bottom: 6rem;
-    }
+    footer { border-top:1px solid var(--border); text-align:center; padding:2rem; font-size:.75rem; color:var(--text-muted); font-family:var(--font-mono); letter-spacing:.08em; }
+    footer span { color:var(--teal); }
 
-    #contact h2 {
-      font-size: clamp(2.5rem, 5vw, 4rem);
-    }
-
-    #contact .sub {
-      color: var(--text-muted);
-      font-size: .95rem;
-      max-width: 45ch;
-      margin: 1rem auto 2.5rem;
-    }
-
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: .6rem;
-      font-size: .85rem;
-      color: var(--text-muted);
-      border: 1px solid var(--border);
-      padding: .75rem 1.5rem;
-      border-radius: 2px;
-      transition: all .2s;
-    }
-
-    .contact-item:hover {
-      border-color: var(--teal);
-      color: var(--teal);
-    }
-
-    .contact-item .ci-icon {
-      font-size: 1rem;
-    }
-
-    /* ── Footer ── */
-    footer {
-      border-top: 1px solid var(--border);
-      text-align: center;
-      padding: 2rem;
-      font-size: .78rem;
-      color: var(--text-muted);
-      font-family: var(--font-mono);
-      letter-spacing: .08em;
-    }
-
-    footer span { color: var(--teal); }
-
-    /* ── Divider ── */
-    .divider {
-      width: 100%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--teal), transparent);
-      opacity: .25;
-      margin: 0;
-    }
-
-    /* ── Animations ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity .7s ease, transform .7s ease;
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      nav { padding: 1rem 1.5rem; }
-      nav ul { gap: 1.5rem; }
-
-      #hero {
-        grid-template-columns: 1fr;
-        text-align: center;
-        padding-top: 8rem;
-        gap: 3rem;
-      }
-
-      .hero-text .tagline { margin-left: auto; margin-right: auto; }
-      .hero-ctas { justify-content: center; }
-      .hero-stats { justify-content: center; }
-      .hero-image { order: -1; }
-      .hero-image .photo-wrap { width: 220px; }
-
-      section { padding: 4rem 1.5rem; }
-
-      .about-grid,
-      .skills-grid,
-      .advocacy-wrap,
-      .featured-project { grid-template-columns: 1fr; gap: 2rem; }
-
-      .projects-grid,
-      .awards-grid { grid-template-columns: 1fr; }
+    /* ── RESPONSIVE ── */
+    @media (max-width:960px) {
+      nav { padding:1rem 1.5rem; }
+      nav ul { gap:1.25rem; }
+      #hero { grid-template-columns:1fr; text-align:center; padding:8rem 1.5rem 4rem; gap:3rem; }
+      .hero-text .tagline { margin:0 auto 2.5rem; }
+      .hero-ctas, .hero-stats { justify-content:center; }
+      .hero-image { order:-1; }
+      .hero-image .photo-wrap { width:200px; }
+      section { padding:4rem 1.5rem; }
+      .diff-grid, .awards-grid { grid-template-columns:1fr; }
+      .about-grid, .skills-outer, .advocacy-wrap { grid-template-columns:1fr; gap:2.5rem; }
+      .project-full { grid-template-columns:1fr; gap:2rem; }
+      .project-full.reverse { direction:ltr; }
+      .exp-item { grid-template-columns:1fr; gap:1rem; }
     }
   </style>
 </head>
-
 <body>
 
-  <!-- ── Navigation ── -->
-  <nav>
-    <div class="logo">Phirtia Silva</div>
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#advocacy">NGO</a></li>
-      <li><a href="#awards">Awards</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+<!-- ── NAV ── -->
+<nav id="mainnav">
+  <div class="logo">Phirtia Silva</div>
+  <ul>
+    <li><a href="#differential">Differential</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#advocacy">NGO</a></li>
+    <li><a href="#awards">Awards</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-  <!-- ── Hero ── -->
-  <div id="hero">
-    <div class="hero-text">
-      <p class="eyebrow">Data Scientist · London, UK</p>
-      <h1>Phirtia<br/><em>Silva</em></h1>
-      <p class="tagline">"Using data as a tool for social justice and evidence-based change."</p>
-      <div class="hero-ctas">
-        <a href="#projects" class="btn btn-primary">View Projects</a>
-        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+<!-- ── HERO ── -->
+<div id="hero">
+  <div class="hero-text">
+    <p class="eyebrow">Data Scientist · London, UK</p>
+    <h1>Phirtia<br/><em>Silva</em></h1>
+    <p class="tagline">"Using data as a tool for social justice and evidence-based change."</p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-outline">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="num">8+</div>
+        <div class="lbl">Years of<br/>Applied Research</div>
       </div>
-      <div class="hero-stats">
-        <div class="stat">
-          <div class="num">8+</div>
-          <div class="lbl">Years in<br/>Applied Research</div>
-        </div>
-        <div class="stat">
-          <div class="num">3+</div>
-          <div class="lbl">Years in<br/>Data Science</div>
-        </div>
-        <div class="stat">
-          <div class="num">25+</div>
-          <div class="lbl">NGOs<br/>impacted</div>
+      <div class="stat">
+        <div class="num">3+</div>
+        <div class="lbl">Years in<br/>Data Science</div>
+      </div>
+      <div class="stat">
+        <div class="num">25+</div>
+        <div class="lbl">NGOs<br/>Impacted</div>
+      </div>
+      <div class="stat">
+        <div class="num">35K+</div>
+        <div class="lbl">People<br/>Reached</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-image">
+    <div class="photo-wrap">
+      <!-- Replace src with: assets/photo.png -->
+      <img src="assets/photo.png" alt="Phirtia Silva, Data Scientist" />
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── DIFFERENTIAL ── -->
+<section id="differential">
+  <p class="section-label">What Sets Me Apart</p>
+  <h2>My Differential</h2>
+  <p style="color:var(--text-muted);max-width:65ch;margin-bottom:0;font-size:.95rem;">I sit at the intersection of three worlds that rarely overlap: advanced engineering, rigorous social science, and deep fieldwork with vulnerable communities. That combination shapes everything I build.</p>
+
+  <div class="diff-grid" style="margin-top:3rem;">
+    <div class="diff-card reveal">
+      <div class="diff-icon">🔬</div>
+      <h4>Interdisciplinary Foundation</h4>
+      <p>A rare mix of Social Science BSc, Data Science MBA, and MPA at LSE — I speak the language of statisticians, policymakers, and community workers equally. I don't just model reality; I understand the context behind the numbers.</p>
+    </div>
+    <div class="diff-card reveal">
+      <div class="diff-icon">🌍</div>
+      <h4>Field Research &amp; Human Proximity</h4>
+      <p>Years of ethnographic fieldwork, home-based interviews, and direct work with refugees, trafficking victims, and women in violence contexts. I build models that respect the people behind the data — because I have sat with them.</p>
+    </div>
+    <div class="diff-card reveal">
+      <div class="diff-icon">⚙️</div>
+      <h4>Senior Engineering Depth</h4>
+      <p>End-to-end pipeline ownership: from idempotent ETL design and CI/CD orchestration to LLM inference systems with prompt versioning and confidence-gap rejection. I architect production-grade systems, not just notebooks.</p>
+    </div>
+    <div class="diff-card reveal">
+      <div class="diff-icon">📐</div>
+      <h4>Evidence for Policy, Not Just Papers</h4>
+      <p>Every model I've built has been used by a government department, an NGO, or an international body. My outputs drive decisions at scale — from São Paulo's municipal human rights system to UNODC reports and the UK labour market.</p>
+    </div>
+    <div class="diff-card reveal">
+      <div class="diff-icon">🤝</div>
+      <h4>Global South Perspective</h4>
+      <p>Working across Brazil, Latin America, and the UK, I bring lived understanding of inequality, informality, and institutional fragility to data problems that Western-trained analysts often miss. I design for contexts where data is scarce.</p>
+    </div>
+    <div class="diff-card reveal">
+      <div class="diff-icon">🚀</div>
+      <h4>Builder &amp; Founder Mindset</h4>
+      <p>I founded D3S Consultoria from scratch — designing its analytics infrastructure, volunteer programme, and global network. I know what it takes to ship, sustain, and scale an organisation alongside a full-time research career.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <p class="section-label">Career</p>
+  <h2>Work Experience</h2>
+
+  <div class="exp-timeline">
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Nov 2025 – Present</div>
+        <div class="exp-org">TwentySix Consulting</div>
+        <div class="exp-loc">London, UK</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-title">Data Scientist</div>
+        <p>Building production-grade ML and data engineering systems. Core work includes cluster analysis with K-Means, K-Modes, and K-Prototypes; binary and multinomial logistic models with statsmodels and scikit-learn; end-to-end NLP classification pipelines on large web-scraped corpora with automated feedback loops, metrics, and retraining cycles. Integrates TensorFlow (Transformers, embeddings, vectorisation) and multi-API workflows connecting GitHub, large databases, and LLMs for full end-to-end ML pipelines. Payroll prediction and job market benchmarking for the UK.</p>
+        <div class="exp-tags tags">
+          <span class="tag tag-teal">Python</span><span class="tag tag-teal">scikit-learn</span><span class="tag tag-teal">TensorFlow</span><span class="tag tag-teal">NLP</span><span class="tag tag-teal">Transformers</span><span class="tag tag-gold">Supabase</span><span class="tag tag-gold">PostgreSQL</span><span class="tag tag-gold">GitHub Actions</span><span class="tag tag-gold">CI/CD</span><span class="tag tag-gold">LLM Ops</span>
         </div>
       </div>
     </div>
 
-    <div class="hero-image">
-      <div class="photo-wrap">
-        <!--
-          Replace the src below with your image path.
-          Example: src="assets/phirtia-photo.jpg"
-          Make sure the image file is in the same repo folder.
-        -->
-        <img src="assets/photo.png" alt="Phirtia Silva, Data Scientist" />
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Aug 2024 – Jul 2025</div>
+        <div class="exp-org">Ipsos Latin America</div>
+        <div class="exp-loc">São Paulo, Brazil</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-title">Senior Researcher</div>
+        <div class="exp-context">Global leader in market research — present in 90+ countries.</div>
+        <p>Conducted advanced data analysis to generate strategic insights for private companies and public institutions across Latin America. Customer Experience (CX) service line. Applied quantitative and qualitative mixed-methods research design at scale.</p>
+        <div class="exp-tags tags">
+          <span class="tag tag-teal">Mixed Methods</span><span class="tag tag-teal">CX Analytics</span><span class="tag tag-teal">R</span><span class="tag tag-teal">SPSS</span><span class="tag tag-muted">Latin America</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Mar 2024 – Present</div>
+        <div class="exp-org">D3S Consultancy</div>
+        <div class="exp-loc">São Paulo, Brazil (remote)</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-title">Data Scientist &amp; Founder</div>
+        <p>Founded and leads Brazil's first data consultancy dedicated to social protection NGOs. Runs high-quality programme analysis, policy analysis advocacy, and data science modelling for organisations without internal data capacity. Designed the analytics infrastructure, volunteer training programme, and the Global South Women in STEM Network launched in 2026.</p>
+        <div class="exp-tags tags">
+          <span class="tag tag-teal">Python</span><span class="tag tag-teal">Geospatial</span><span class="tag tag-teal">ML</span><span class="tag tag-gold">Social Impact</span><span class="tag tag-gold">NGO Consulting</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Jul 2023 – Jul 2024</div>
+        <div class="exp-org">Municipal Government — São Paulo</div>
+        <div class="exp-loc">São Paulo, Brazil</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-title">Data Specialist — Human Rights</div>
+        <p>Analysed data on human rights violations across São Paulo's public services. Conducted fieldwork in victim-facing services, producing statistical models, geospatial analyses, indicators, and technical reports for policymakers on gender violence, trafficking, and social vulnerability. Developed an integrated data collection and automated analytics system covering 5 public services with over 1 million attendances per month.</p>
+        <div class="exp-tags tags">
+          <span class="tag tag-teal">QGIS</span><span class="tag tag-teal">Python</span><span class="tag tag-teal">R</span><span class="tag tag-gold">Fieldwork</span><span class="tag tag-gold">Human Rights</span><span class="tag tag-gold">Policy Reports</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Nov 2021 – Jun 2023</div>
+        <div class="exp-org">H2R Market Research</div>
+        <div class="exp-loc">São Paulo, Brazil</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-title">Senior Data Analyst</div>
+        <p>Planned and coordinated quantitative and qualitative research including questionnaire design, tabulations, and indices. Data analysis and client dialogue across UX, CX, BI, and focus group methodologies. Research topics included water use in Rio de Janeiro's favelas, electric vehicles, and ESG/LSO indicators.</p>
+        <div class="exp-tags tags">
+          <span class="tag tag-teal">SPSS</span><span class="tag tag-teal">Excel</span><span class="tag tag-teal">Qualitative</span><span class="tag tag-muted">CX / UX</span><span class="tag tag-muted">ESG</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Apr 2019 – Nov 2020</div>
+        <div class="exp-org">Datafolha Research Institute</div>
+        <div class="exp-loc">São Paulo, Brazil</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-title">Data Analyst Intern</div>
+        <div class="exp-context">One of Brazil's most prestigious research institutes, founded in 1983.</div>
+        <p>Assisted in reading and interpreting data on inclusive education, transgender populations, and user experiences. Produced reports, graphs, tabulations, and questionnaires; collected secondary data on sensitive social topics.</p>
+        <div class="exp-tags tags">
+          <span class="tag tag-teal">SPSS</span><span class="tag tag-teal">Quantitative Research</span><span class="tag tag-muted">Social Policy</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Apr 2018 – Oct 2021</div>
+        <div class="exp-org">Social Research Laboratory · USP</div>
+        <div class="exp-loc">São Paulo, Brazil</div>
+      </div>
+      <div class="exp-content">
+        <div class="exp-title">Scholarship Researcher &amp; Survey Coordinator</div>
+        <p>Conducted a public opinion survey on Brazil's national political landscape and 2018 presidential elections. Designed field procedures and instruments, administered home-based questionnaires, built databases, and coded open-ended responses in SPSS. Coordinated student groups in field research across two electoral survey workshops; trained students in fieldwork methodology and produced maps, questionnaires, and answer cards.</p>
+        <div class="exp-tags tags">
+          <span class="tag tag-teal">Field Research</span><span class="tag tag-teal">Survey Design</span><span class="tag tag-teal">SPSS</span><span class="tag tag-gold">Team Coordination</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Academic & Field -->
+  <div style="margin-top:4rem;">
+    <p class="section-label" style="margin-bottom:2rem;">Academic &amp; Field Research</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+
+      <div class="diff-card reveal">
+        <div class="diff-icon">📚</div>
+        <h4>Research Assistant — South Africa Study</h4>
+        <p style="font-size:.82rem;color:var(--text-muted);margin-top:.5rem;">Oct 2020 – Oct 2021 · USP<br/>
+        Research project: "Bachelors, employees, and clergy: a study on the dynamics of social interactions in a South African city." Keywords: race, nationalism, religion, gender, militarism, far right.</p>
+      </div>
+
+      <div class="diff-card reveal">
+        <div class="diff-icon">🏘️</div>
+        <h4>Research Assistant — Black Refugee Ethnography</h4>
+        <p style="font-size:.82rem;color:var(--text-muted);margin-top:.5rem;">Aug 2019 – Sep 2020 · USP<br/>
+        Ethnographic research and analysis of the humanitarian contexts surrounding Black refugee inflows in Brazil. Published in <em>Revista de Antropologia da UFSCar</em> (DOI: 10.52426/rau.v13i1.369).</p>
+      </div>
+
+      <div class="diff-card reveal">
+        <div class="diff-icon">🌐</div>
+        <h4>Erasmus Exchange</h4>
+        <p style="font-size:.82rem;color:var(--text-muted);margin-top:.5rem;">2021 · Sciences Po Saint-Germain<br/>
+        International exchange programme in social and political sciences in France.</p>
+      </div>
+
+      <div class="diff-card reveal">
+        <div class="diff-icon">🏛️</div>
+        <h4>Young Leadership Programme</h4>
+        <p style="font-size:.82rem;color:var(--text-muted);margin-top:.5rem;">2011 · President of the Chamber of Deputies, Brazil<br/>
+        Selected as a young leader for the national parliamentary programme — early formation in public policy and democratic governance.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <p class="section-label">Technical Toolkit</p>
+  <h2>Skills &amp; Stack</h2>
+
+  <div class="skills-outer">
+
+    <div class="skill-col reveal">
+      <h4>Core Proficiencies</h4>
+      <div class="skill-bars">
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Python / R</span><span class="skill-pct">90%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-width="0.90"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Machine Learning</span><span class="skill-pct">88%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-width="0.88"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Data Engineering &amp; Pipelines</span><span class="skill-pct">85%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-width="0.85"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">NLP / LLM Ops</span><span class="skill-pct">82%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-width="0.82"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">SQL / Databases</span><span class="skill-pct">82%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-width="0.82"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">QGIS / Geospatial</span><span class="skill-pct">85%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-width="0.85"></div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-header"><span class="skill-name">Qualitative &amp; Mixed Methods</span><span class="skill-pct">90%</span></div>
+          <div class="bar-track"><div class="bar-fill" data-width="0.90"></div></div>
+        </div>
+      </div>
+
+      <h4 style="margin-top:1rem;">Human Languages</h4>
+      <div class="lang-badges" style="margin-top:1rem;">
+        <div class="lang-badge"><span class="code">PT</span><span class="level">Native</span></div>
+        <div class="lang-badge"><span class="code">EN</span><span class="level">C2</span></div>
+        <div class="lang-badge"><span class="code">FR</span><span class="level">A2</span></div>
+        <div class="lang-badge"><span class="code">ES</span><span class="level">A1</span></div>
+      </div>
+    </div>
+
+    <div class="skill-col reveal">
+      <h4>Engineering &amp; Infrastructure</h4>
+      <div class="stack-section">
+        <h5>Data Engineering</h5>
+        <div class="tags">
+          <span class="tag tag-gold">Supabase</span><span class="tag tag-gold">PostgreSQL</span><span class="tag tag-gold">Idempotent Pipelines</span><span class="tag tag-gold">Upsert / Constraint Enforcement</span><span class="tag tag-gold">Staging-to-Production</span><span class="tag tag-gold">GitHub Actions</span><span class="tag tag-gold">CI/CD</span><span class="tag tag-gold">Composite Key Joins</span><span class="tag tag-gold">Multi-sheet ETL</span><span class="tag tag-gold">Serverless Functions</span><span class="tag tag-gold">.jsonl Audit Trails</span><span class="tag tag-gold">Actor-based Deployment</span>
+        </div>
+      </div>
+      <div class="stack-section">
+        <h5>LLM Ops &amp; Inference</h5>
+        <div class="tags">
+          <span class="tag tag-teal">REST Integration</span><span class="tag tag-teal">Deterministic Inference</span><span class="tag tag-teal">Prompt Versioning</span><span class="tag tag-teal">Agreement-Rate Tracking</span><span class="tag tag-teal">System Prompt Architecture</span><span class="tag tag-teal">Few-shot Disambiguation</span><span class="tag tag-teal">Retry + Schema Enforcement</span>
+        </div>
+      </div>
+      <div class="stack-section">
+        <h5>NLP &amp; Classification</h5>
+        <div class="tags">
+          <span class="tag tag-teal">Sentence Transformers</span><span class="tag tag-teal">Centroid Classification</span><span class="tag tag-teal">Multi-field Embedding Fusion</span><span class="tag tag-teal">Batched Matrix Inference</span><span class="tag tag-teal">BLAS Vectorisation</span><span class="tag tag-teal">Confidence-gap Rejection</span><span class="tag tag-teal">Pseudo-label Pipeline</span><span class="tag tag-teal">Cross-validation</span><span class="tag tag-teal">scikit-learn</span>
+        </div>
+      </div>
+      <div class="stack-section">
+        <h5>Research Methods</h5>
+        <div class="tags">
+          <span class="tag tag-muted">Ethnography</span><span class="tag tag-muted">Home-based Interviews</span><span class="tag tag-muted">Fieldwork in Vulnerable Contexts</span><span class="tag tag-muted">Survey Design</span><span class="tag tag-muted">Causal Inference</span><span class="tag tag-muted">Econometrics</span><span class="tag tag-muted">Policy Analysis</span><span class="tag tag-muted">SPSS</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <p class="section-label">Projects</p>
+  <h2>Selected Work</h2>
+
+  <!-- Project 1: Large-Scale Pipelines -->
+  <div class="project-full reveal" style="margin-top:3rem;">
+    <div class="proj-img">
+      <!-- src="assets/project-pipelines.png" -->
+      <img src="assets/project-pipelines.png" alt="Large-Scale NLP Pipeline" />
+    </div>
+    <div class="proj-info">
+      <div class="proj-tags-wrap">
+        <span class="tag tag-gold">Data Engineering</span>
+        <span class="tag tag-gold">LLM Ops</span>
+        <span class="tag tag-teal">NLP</span>
+        <span class="tag tag-teal">TensorFlow</span>
+      </div>
+      <h3>Large-Scale ML &amp; NLP Pipelines</h3>
+      <p>Production end-to-end NLP classification pipeline built on web-scraped corpora using TensorFlow Transformers, Sentence Transformers, embeddings, and vectorisation. Implements confidence-gap soft rejection, pseudo-label pipelines, and batched BLAS-level matrix inference for performance.</p>
+      <p>Data engineering layer includes idempotent pipeline design with upsert and constraint enforcement, staging-to-production promotion, GitHub Actions orchestration, composite key multi-source joins, and .jsonl audit trails. LLM Ops layer covers REST integration, prompt versioning with agreement-rate tracking, few-shot boundary disambiguation, and retry with output schema enforcement. Applied to payroll prediction and job market benchmarking in the UK.</p>
+      <div class="tags" style="margin-bottom:1.25rem;margin-top:.5rem;">
+        <span class="tag tag-gold">Supabase</span><span class="tag tag-gold">PostgreSQL</span><span class="tag tag-gold">GitHub Actions</span><span class="tag tag-teal">Sentence Transformers</span><span class="tag tag-teal">scikit-learn</span><span class="tag tag-teal">Python</span>
       </div>
     </div>
   </div>
 
-  <div class="divider"></div>
-
-  <!-- ── About ── -->
-  <section id="about">
-    <p class="section-label">About</p>
-    <h2>Where Data Meets<br/>Real Change</h2>
-
-    <div class="about-grid">
-      <div class="about-left reveal">
-        <p>I am a Data Scientist who combines rigorous modeling, interdisciplinar methodologies, and deep contextual understanding of policy and social development. After 7 years in applied research, I have built machine learning models, geospatial analyses, and evidence-based reports for governments, NGOs, and global research firms across Brazil, Latin America, and the UK.</p>
-        <p>Currently studying at the London School of Economics (MPA, Data Science for Public Policy) while working as a Data Scientist at TwentySix Consulting in London.</p>
-        <div class="quote-block">
-          <p>"Using data as a tool for social justice and evidence-based change."</p>
-        </div>
+  <!-- Project 2: ML & Human Rights -->
+  <div class="project-full reverse reveal">
+    <div class="proj-img">
+      <!-- src="assets/project-featured.png" -->
+      <img src="assets/project-featured.png" alt="Machine Learning and Human Rights" />
+    </div>
+    <div class="proj-info">
+      <div class="badge-featured">SSRN Published</div>
+      <div class="proj-tags-wrap">
+        <span class="tag tag-teal">ML / Python</span>
+        <span class="tag tag-teal">Geospatial</span>
+        <span class="tag tag-gold">Human Rights</span>
       </div>
+      <h3>Machine Learning &amp; Human Rights</h3>
+      <p>Predictive classification model to identify Brazilian municipalities at highest risk of femicide and gender-based violence. Combined socioeconomic census data, historical crime statistics, and geospatial features from QGIS for spatial feature engineering.</p>
+      <p>Deployed logistic regression, decision tree, and ensemble models using scikit-learn and statsmodels. Outputs mapped to policy-relevant visualisations for government partners. Published on SSRN 2025.</p>
+      <div class="tags" style="margin-bottom:1.25rem;margin-top:.5rem;">
+        <span class="tag tag-teal">scikit-learn</span><span class="tag tag-teal">statsmodels</span><span class="tag tag-teal">QGIS</span><span class="tag tag-gold">Policy Impact</span>
+      </div>
+      <a href="http://dx.doi.org/10.2139/ssrn.5130866" target="_blank" rel="noopener" class="proj-link">Read on SSRN →</a>
+    </div>
+  </div>
 
-      <div class="reveal">
-        <p class="section-label" style="margin-bottom: 1.5rem;">Education</p>
-        <ul class="edu-list">
-          <li>
-            <div class="edu-dot"></div>
-            <div class="edu-info">
-              <div class="deg">MPA · Data Science for Public Policy</div>
-              <div class="school">London School of Economics</div>
-              <div class="years">2025 – 2027</div>
-            </div>
-          </li>
-          <li>
-            <div class="edu-dot"></div>
-            <div class="edu-info">
-              <div class="deg">MBA · Data Science</div>
-              <div class="school">Universidade de São Paulo (USP)</div>
-              <div class="years">2023 – 2025</div>
-            </div>
-          </li>
-          <li>
-            <div class="edu-dot"></div>
-            <div class="edu-info">
-              <div class="deg">BSc · Social Science</div>
-              <div class="school">Universidade de São Paulo (USP)</div>
-              <div class="years">2017 – 2021</div>
-            </div>
-          </li>
-        </ul>
+  <!-- Project 3: Public Policy Index -->
+  <div class="project-full reveal">
+    <div class="proj-img">
+      <!-- src="assets/project-policy.png" -->
+      <img src="assets/project-policy.png" alt="Public Policy Index São Paulo" />
+    </div>
+    <div class="proj-info">
+      <div class="proj-tags-wrap">
+        <span class="tag tag-teal">Statistics</span>
+        <span class="tag tag-teal">Geospatial</span>
+        <span class="tag tag-gold">Government</span>
+        <span class="tag tag-gold">Human Rights</span>
+      </div>
+      <h3>Public Policy Index</h3>
+      <p>Statistical models, indicators, and geospatial analyses for São Paulo's Municipal Government — producing evidence for policymakers on sensitive human rights topics including gender violence, trafficking, and social vulnerability.</p>
+      <p>Developed an integrated system for data collection and automated analytics covering 5 public services with more than 1 million attendances per month. Involved direct fieldwork, interviews with victims and service workers, and translation of field evidence into actionable policy reporting.</p>
+      <div class="tags" style="margin-bottom:1.25rem;margin-top:.5rem;">
+        <span class="tag tag-teal">QGIS</span><span class="tag tag-teal">Python</span><span class="tag tag-teal">R</span><span class="tag tag-gold">Fieldwork</span><span class="tag tag-gold">Policy Reports</span>
       </div>
     </div>
-  </section>
+  </div>
 
-  <div class="divider"></div>
-
-  <!-- ── Skills ── -->
-  <section id="skills">
-    <p class="section-label">Skills</p>
-    <h2>Technical Toolkit</h2>
-
-    <div class="skills-grid">
-      <div class="skill-bars reveal">
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-name">Python / R</span>
-            <span class="skill-pct">90%</span>
-          </div>
-          <div class="bar-track"><div class="bar-fill" data-width="0.90"></div></div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-name">Machine Learning</span>
-            <span class="skill-pct">88%</span>
-          </div>
-          <div class="bar-track"><div class="bar-fill" data-width="0.88"></div></div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-name">TensorFlow / NLP</span>
-            <span class="skill-pct">80%</span>
-          </div>
-          <div class="bar-track"><div class="bar-fill" data-width="0.80"></div></div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-name">SQL / Databases</span>
-            <span class="skill-pct">82%</span>
-          </div>
-          <div class="bar-track"><div class="bar-fill" data-width="0.82"></div></div>
-        </div>
-        <div class="skill-item">
-          <div class="skill-header">
-            <span class="skill-name">QGIS / Geospatial</span>
-            <span class="skill-pct">85%</span>
-          </div>
-          <div class="bar-track"><div class="bar-fill" data-width="0.85"></div></div>
-        </div>
+  <!-- Project 4: Women in STEM -->
+  <div class="project-full reverse reveal">
+    <div class="proj-img">
+      <!-- src="assets/project-stem.png" -->
+      <img src="assets/project-stem.png" alt="Women in STEM Retention Model" />
+    </div>
+    <div class="proj-info">
+      <div class="proj-tags-wrap">
+        <span class="tag tag-teal">M&amp;E</span>
+        <span class="tag tag-teal">Causal Inference</span>
+        <span class="tag tag-gold">Gender Equity</span>
       </div>
-
-      <div class="tags-section reveal">
-        <div class="tags-group">
-          <h4>Methods</h4>
-          <div class="tags">
-            <span class="tag tag-teal">Machine Learning</span>
-            <span class="tag tag-teal">Cluster Analysis</span>
-            <span class="tag tag-teal">Econometrics</span>
-            <span class="tag tag-teal">Causal Inference</span>
-            <span class="tag tag-teal">Quantitative Research</span>
-            <span class="tag tag-teal">Policy Analysis</span>
-            <span class="tag tag-teal">Qualitative Research</span>
-            <span class="tag tag-teal">Ethnography</span>
-            <span class="tag tag-teal">Field Working</span>
-          </div>
-        </div>
-        <div class="tags-group">
-          <h4>Tools & Libraries</h4>
-          <div class="tags">
-            <span class="tag tag-gold">scikit-learn</span>
-            <span class="tag tag-gold">TensorFlow</span>
-            <span class="tag tag-gold">Transformers</span>
-            <span class="tag tag-gold">NLP</span>
-            <span class="tag tag-gold">QGIS</span>
-            <span class="tag tag-gold">GitHub</span>
-            <span class="tag tag-gold">SPSS</span>
-            <span class="tag tag-gold">Excel</span>
-            <span class="tag tag-gold">SQL</span>
-          </div>
-        </div>
-        <div class="tags-group">
-          <h4>Languages</h4>
-          <div class="languages">
-            <div class="lang-badge">
-              <span class="code">PT</span>
-              <span class="level">Native</span>
-            </div>
-            <div class="lang-badge">
-              <span class="code">EN</span>
-              <span class="level">Fluent</span>
-            </div>
-            <div class="lang-badge">
-              <span class="code">FR</span>
-              <span class="level">A2</span>
-            </div>
-            <div class="lang-badge">
-              <span class="code">ES</span>
-              <span class="level">A1</span>
-            </div>
-          </div>
-        </div>
+      <h3>Women in STEM Retention Model</h3>
+      <p>Consultancy for NGO Reprograma: audience segmentation using clustering algorithms, disengagement risk prediction, and application of causal inference methods to identify interventions that improve participant retention and programme completion rates.</p>
+      <p>Delivered actionable segmentation and a risk scoring system adopted by the organisation's programme team to target support resources toward participants most at risk of dropping out.</p>
+      <div class="tags" style="margin-bottom:1.25rem;margin-top:.5rem;">
+        <span class="tag tag-teal">Python</span><span class="tag tag-teal">SPSS</span><span class="tag tag-teal">SQL</span><span class="tag tag-teal">MongoDB</span><span class="tag tag-gold">Causal Inference</span>
       </div>
     </div>
-  </section>
+  </div>
 
-  <div class="divider"></div>
-
-  <!-- ── Projects ── -->
-  <section id="projects">
-    <p class="section-label">Projects</p>
-    <h2>Selected Work</h2>
-
-    <!-- Featured -->
-    <div class="featured-project reveal">
-      <div class="proj-img">
-        <!--
-          Replace src with your image, e.g. src="assets/project-ml-humanrights.jpg"
-        -->
-        <img src="assets/project-featured.png" alt="Machine Learning and Human Rights project" />
+  <!-- Project 5: UNODC -->
+  <div class="project-full reveal">
+    <div class="proj-img">
+      <!-- src="assets/project-unodc.png" -->
+      <img src="assets/project-unodc.png" alt="UNODC Human Trafficking Report" />
+    </div>
+    <div class="proj-info">
+      <div class="proj-tags-wrap">
+        <span class="tag tag-gold">UNODC</span>
+        <span class="tag tag-gold">Policy Analytics</span>
+        <span class="tag tag-teal">Qualitative</span>
       </div>
-      <div class="proj-info">
-        <div class="proj-tags">
-          <span class="tag tag-teal">ML / Python</span>
-          <span class="tag tag-teal">Geospatial</span>
-          <span class="tag tag-gold">Human Rights</span>
-          <span class="tag tag-gold">SSRN Published</span>
-        </div>
-        <h3>Machine Learning &amp; Human Rights</h3>
-        <p>Predictive classification model to identify Brazilian municipalities at highest risk of femicide and gender-based violence, combining socioeconomic census data, historical crime statistics, and geospatial features. Deployed logistic regression, decision tree, and ensemble models using scikit-learn and statsmodels; applied QGIS for spatial feature engineering.</p>
-        <a href="http://dx.doi.org/10.2139/ssrn.5130866" target="_blank" rel="noopener" class="proj-link">Read on SSRN →</a>
+      <h3>UNODC Human Trafficking Report</h3>
+      <p>Data collection and cleaning support for the pioneer UNODC report on human trafficking victims exploited for drug transportation — a joint publication with Brazil's Ministry of Justice and the Public Defender's Office.</p>
+      <p>The exploratory, qualitative study covered 105 criminal sentences from 2018–2019 and addressed the normative elements defining trafficking in persons. Involved interviews conducted with public and civil society institutions working on the theme, and brought examples of how the non-punishment principle is applied by other countries.</p>
+      <div class="tags" style="margin-bottom:1.25rem;margin-top:.5rem;">
+        <span class="tag tag-gold">Qualitative Research</span><span class="tag tag-gold">SPSS</span><span class="tag tag-gold">Policy Analysis</span><span class="tag tag-teal">Interviews</span>
       </div>
     </div>
+  </div>
 
-    <!-- Cards -->
-    <div class="projects-grid">
-      <div class="project-card reveal">
-        <div class="card-cat">Statistics &amp; Analytics</div>
-        <h4>Public Policy Index</h4>
-        <p>Statistical models, indicators, and geospatial analyses for São Paulo's Municipal Government. Evidence for policymakers on sensitive human rights topics. Integrated data collection system for 5 public services with 1M+ monthly attendances.</p>
-        <div class="tags" style="gap:.4rem;">
-          <span class="tag tag-teal">QGIS</span>
-          <span class="tag tag-teal">Python</span>
-          <span class="tag tag-teal">R</span>
-        </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── ADVOCACY ── -->
+<section id="advocacy">
+  <p class="section-label">Data Advocacy</p>
+  <h2>D3S Consultoria</h2>
+
+  <div class="advocacy-wrap">
+    <div class="advocacy-text reveal">
+      <p>D3S Consultoria is a Brazilian nonprofit I founded that provides free data analytics consulting, training, and technical products to NGOs that lack data expertise. Since 2024 we have impacted 25 organisations and indirectly reached over 35,000 people in vulnerable situations.</p>
+      <p>The organisation runs a volunteer programme to increase women's presence in STEM. In early 2026 we launched the <strong>Global South Women in STEM (GSW-STEM) Network</strong>, connecting female tech leaders from Brazil, South Africa, India, Ethiopia, Cameroon, and beyond to advance technological development and female leadership across the Global South.</p>
+      <a href="https://www.d3sconsultoria.com.br" target="_blank" rel="noopener" class="proj-link" style="margin-top:.5rem;display:inline-block;">Visit D3S Consultoria →</a>
+      <div class="impact-grid">
+        <div class="impact-num"><span class="big">25</span><span class="desc">Organizations<br/>Impacted</span></div>
+        <div class="impact-num"><span class="big">35K+</span><span class="desc">People in<br/>Vulnerable Situations</span></div>
+        <div class="impact-num"><span class="big">41</span><span class="desc">Professionals<br/>Trained</span></div>
+        <div class="impact-num"><span class="big">16</span><span class="desc">Volunteers<br/>Graduated</span></div>
       </div>
+    </div>
+    <div class="advocacy-img reveal">
+      <!-- src="assets/d3s-team.png" -->
+      <img src="assets/d3s-team.png" alt="D3S Consultoria team" />
+    </div>
+  </div>
+</section>
 
-      <div class="project-card reveal">
-        <div class="card-cat">Machine Learning &amp; NLP</div>
-        <h4>Large-Scale Model Pipelines</h4>
-        <p>End-to-end NLP pipeline on web-scraped corpora using TensorFlow Transformers, embeddings, and vectorisation with feedback loops and automated retraining. Also includes payroll prediction and job market benchmarking for the UK.</p>
-        <div class="tags" style="gap:.4rem;">
-          <span class="tag tag-gold">TensorFlow</span>
-          <span class="tag tag-gold">NLP</span>
-          <span class="tag tag-gold">Python</span>
-        </div>
+<div class="divider"></div>
+
+<!-- ── ABOUT / EDU ── -->
+<section id="about">
+  <p class="section-label">About</p>
+  <h2>Background &amp; Education</h2>
+  <div class="about-grid">
+    <div class="about-left reveal">
+      <p>I am a Data Scientist who combines rigorous modelling, interdisciplinary methodologies, and deep contextual understanding of policy and social development. After 8 years in applied research, I have built machine learning models, geospatial analyses, production data pipelines, and evidence-based reports for governments, NGOs, and global research firms across Brazil, Latin America, and the UK.</p>
+      <p>My path — from ethnographic fieldwork in Brazilian favelas and refugee communities, through electoral survey coordination, to building production ML systems in London — shapes everything about how I approach data: with technical rigour and human proximity in equal measure.</p>
+      <div class="quote-block">
+        <p>"Using data as a tool for social justice and evidence-based change."</p>
       </div>
+    </div>
+    <div class="reveal">
+      <p class="section-label" style="margin-bottom:1.5rem;">Education</p>
+      <ul class="edu-list">
+        <li>
+          <div class="edu-dot"></div>
+          <div class="edu-info">
+            <div class="deg">MPA · Data Science for Public Policy</div>
+            <div class="school">London School of Economics</div>
+            <div class="years">2025 – 2027</div>
+          </div>
+        </li>
+        <li>
+          <div class="edu-dot"></div>
+          <div class="edu-info">
+            <div class="deg">MBA · Data Science &amp; Analytics</div>
+            <div class="school">Universidade de São Paulo (USP)</div>
+            <div class="years">2023 – 2025</div>
+          </div>
+        </li>
+        <li>
+          <div class="edu-dot"></div>
+          <div class="edu-info">
+            <div class="deg">BSc · Social Science</div>
+            <div class="school">Universidade de São Paulo (USP)</div>
+            <div class="years">2017 – 2021</div>
+          </div>
+        </li>
+        <li>
+          <div class="edu-dot"></div>
+          <div class="edu-info">
+            <div class="deg">Erasmus Exchange Programme</div>
+            <div class="school">Sciences Po Saint-Germain, France</div>
+            <div class="years">2021</div>
+          </div>
+        </li>
+      </ul>
 
-      <div class="project-card reveal">
-        <div class="card-cat">M&amp;E · Causal Inference</div>
-        <h4>Women in STEM Retention Model</h4>
-        <p>Consultancy for NGO Reprograma: audience segmentation, disengagement risk prediction, and causal inference to identify interventions that improve participant retention and completion rates.</p>
-        <div class="tags" style="gap:.4rem;">
-          <span class="tag tag-teal">Python</span>
-          <span class="tag tag-teal">SPSS</span>
-          <span class="tag tag-teal">SQL</span>
-          <span class="tag tag-teal">MongoDB</span>
+      <p class="section-label" style="margin-top:2.5rem;margin-bottom:1.25rem;">Countries Lived</p>
+      <div class="countries-grid">
+        <div class="country-card">
+          <span class="country-flag">🇧🇷</span>
+          <span class="country-name">Brazil</span>
+          <span class="country-note">Home country</span>
         </div>
-      </div>
-
-      <div class="project-card reveal" style="grid-column: span 3;">
-        <div class="card-cat">Policy Analytics · UNODC</div>
-        <h4>Human Trafficking Victims Report</h4>
-        <p>Data collection and cleaning support for the pioneer UNODC report on human trafficking victims exploited for drug transportation — a joint publication with Brazil's Ministry of Justice and the Public Defender's Office. Exploratory and qualitative study covering 105 criminal sentences from 2018–2019.</p>
-        <div class="tags" style="gap:.4rem;">
-          <span class="tag tag-gold">Qualitative</span>
-          <span class="tag tag-gold">SPSS</span>
-          <span class="tag tag-muted">Policy Analysis</span>
+        <div class="country-card">
+          <span class="country-flag">🇬🇧</span>
+          <span class="country-name">United Kingdom</span>
+          <span class="country-note">London, current</span>
+        </div>
+        <div class="country-card">
+          <span class="country-flag">🇫🇷</span>
+          <span class="country-name">France</span>
+          <span class="country-note">Sciences Po, 2021</span>
+        </div>
+        <div class="country-card">
+          <span class="country-flag">🇨🇳</span>
+          <span class="country-name">China</span>
+          <span class="country-note">International experience</span>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <div class="divider"></div>
+<div class="divider"></div>
 
-  <!-- ── Advocacy ── -->
-  <section id="advocacy">
-    <p class="section-label">Data Advocacy</p>
-    <h2>D3S Consultoria</h2>
-
-    <div class="advocacy-wrap">
-      <div class="advocacy-text reveal">
-        <p>D3S Consultoria is a Brazilian nonprofit I founded that provides free data analytics consulting, training, and technical products to NGOs that lack data expertise. Since 2024 we have impacted 25 organisations and indirectly reached over 35,000 people in vulnerable situations.</p>
-        <p>The organisation also runs a volunteer program to increase women's presence in STEM. In early 2026 we launched the <strong>Global South Women in STEM (GSW-STEM) Network</strong>, connecting female tech leaders from Brazil, South Africa, India, Ethiopia, Cameroon, and beyond.</p>
-        <a href="https://www.d3sconsultoria.com.br" target="_blank" rel="noopener" class="proj-link" style="margin-top:.5rem; display:inline-block;">Visit D3S Consultoria →</a>
-
-        <div class="impact-numbers">
-          <div class="impact-num">
-            <span class="big">25</span>
-            <span class="desc">Organizations<br/>Impacted</span>
-          </div>
-          <div class="impact-num">
-            <span class="big">35K+</span>
-            <span class="desc">People in<br/>Vulnerable Situations</span>
-          </div>
-          <div class="impact-num">
-            <span class="big">41</span>
-            <span class="desc">Professionals<br/>Trained</span>
-          </div>
-          <div class="impact-num">
-            <span class="big">16</span>
-            <span class="desc">Volunteers<br/>Graduated</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="advocacy-img reveal">
-        <!--
-          Replace with your image, e.g. src="assets/d3s-team.jpg"
-        -->
-        <img src="assets/d3s-team.png" alt="D3S Consultoria team" />
-      </div>
+<!-- ── AWARDS ── -->
+<section id="awards">
+  <p class="section-label">Recognition</p>
+  <h2>Awards &amp; Roles</h2>
+  <div class="awards-grid">
+    <div class="award-card reveal">
+      <div class="award-year">2025</div>
+      <div class="award-icon">🏆</div>
+      <h4>BRICS Young Innovator</h4>
+      <p>Recognised internationally for outstanding contributions in data science and social innovation across BRICS nations.</p>
     </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ── Awards ── -->
-  <section id="awards">
-    <p class="section-label">Recognition</p>
-    <h2>Awards &amp; Roles</h2>
-
-    <div class="awards-grid">
-      <div class="award-card reveal">
-        <div class="award-year">2025</div>
-        <div class="award-icon">🏆</div>
-        <h4>BRICS Young Innovator</h4>
-        <p>Recognised internationally for outstanding contributions in data science and social innovation across BRICS nations.</p>
-      </div>
-      <div class="award-card reveal">
-        <div class="award-year">2024</div>
-        <div class="award-icon">⭐</div>
-        <h4>Systers Pass it On Award</h4>
-        <p>Awarded by Anita B.org / Systers community for empowering and mentoring women in technology and data science.</p>
-      </div>
-      <div class="award-card reveal">
-        <div class="award-year">2025 · 2023 · 2021</div>
-        <div class="award-icon">📌</div>
-        <h4>Other Recognition</h4>
-        <p>Student Representative, SPP-LSE EDI Committee (2025) · Member, SP Interministerial Working Group on Indicators (2023) · Assistance to UNODC Consultant (2021).</p>
-      </div>
+    <div class="award-card reveal">
+      <div class="award-year">2024</div>
+      <div class="award-icon">⭐</div>
+      <h4>Systers Pass it On Award</h4>
+      <p>Awarded by Anita B.org / Systers for empowering and mentoring women in technology and data science globally.</p>
     </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ── Contact ── -->
-  <section id="contact">
-    <p class="section-label" style="justify-content: center;">Contact</p>
-    <h2>Let's Work Together</h2>
-    <p class="sub">Open to opportunities in Data Science · Public Policy · Human Rights Analytics · Research</p>
-    <a href="mailto:p.rodrigues-da-silva@lse.ac.uk" class="btn btn-primary" style="display:inline-flex;">Send an Email</a>
-
-    <div class="contact-links">
-      <a href="mailto:p.rodrigues-da-silva@lse.ac.uk" class="contact-item">
-        <span class="ci-icon">✉</span>
-        p.rodrigues-da-silva@lse.ac.uk
-      </a>
-      <a href="https://www.linkedin.com/in/phirtia-silva-58953117b" target="_blank" rel="noopener" class="contact-item">
-        <span class="ci-icon">in</span>
-        LinkedIn
-      </a>
-      <a href="https://github.com/Phirtia/Data-Science-Scripts" target="_blank" rel="noopener" class="contact-item">
-        <span class="ci-icon">⌥</span>
-        GitHub
-      </a>
-      <a href="https://www.d3sconsultoria.com.br" target="_blank" rel="noopener" class="contact-item">
-        <span class="ci-icon">🌐</span>
-        d3sconsultoria.com.br
-      </a>
-      <a href="http://dx.doi.org/10.2139/ssrn.5130866" target="_blank" rel="noopener" class="contact-item">
-        <span class="ci-icon">📄</span>
-        SSRN Publication
-      </a>
+    <div class="award-card reveal">
+      <div class="award-year">2025</div>
+      <div class="award-icon">🎓</div>
+      <h4>Student Rep · LSE EDI Committee</h4>
+      <p>Student Representative for the SPP Equality, Diversity and Inclusion Committee at the London School of Economics.</p>
     </div>
-  </section>
+    <div class="award-card reveal">
+      <div class="award-year">2023</div>
+      <div class="award-icon">🏛️</div>
+      <h4>SP Interministerial Working Group</h4>
+      <p>Member of São Paulo's Interministerial Working Group on Indicators, contributing to state-level policy measurement frameworks.</p>
+    </div>
+    <div class="award-card reveal">
+      <div class="award-year">2021</div>
+      <div class="award-icon">🌐</div>
+      <h4>UNODC Consultant Assistance</h4>
+      <p>Assisted a United Nations Office on Drugs and Crime consultant on the pioneer human trafficking and forced criminality report.</p>
+    </div>
+    <div class="award-card reveal">
+      <div class="award-year">2019</div>
+      <div class="award-icon">🤲</div>
+      <h4>Coordinator · Immigrants &amp; Refugees</h4>
+      <p>Coordinated leisure and integration activities for immigrant and refugee communities in São Paulo.</p>
+    </div>
+  </div>
+</section>
 
-  <!-- ── Footer ── -->
-  <footer>
-    <span>Phirtia Silva</span> · Data Scientist · London, UK · 2025
-  </footer>
+<div class="divider"></div>
 
-  <!-- ── JS: scroll reveals + bar animations ── -->
-  <script>
-    // Intersection observer for .reveal elements
-    const revealEls = document.querySelectorAll('.reveal');
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <p class="section-label" style="justify-content:center;">Contact</p>
+  <h2>Let's Work Together</h2>
+  <p class="sub">Open to opportunities in Data Science · Public Policy · Human Rights Analytics · Research</p>
+  <a href="mailto:p.rodrigues-da-silva@lse.ac.uk" class="btn btn-primary" style="display:inline-flex;">Send an Email</a>
+  <div class="contact-links">
+    <a href="mailto:p.rodrigues-da-silva@lse.ac.uk" class="contact-item"><span>✉</span> p.rodrigues-da-silva@lse.ac.uk</a>
+    <a href="https://www.linkedin.com/in/phirtia-silva-58953117b" target="_blank" rel="noopener" class="contact-item"><span>in</span> LinkedIn</a>
+    <a href="https://github.com/Phirtia/Data-Science-Scripts" target="_blank" rel="noopener" class="contact-item"><span>⌥</span> GitHub</a>
+    <a href="https://www.d3sconsultoria.com.br" target="_blank" rel="noopener" class="contact-item"><span>🌐</span> d3sconsultoria.com.br</a>
+    <a href="http://dx.doi.org/10.2139/ssrn.5130866" target="_blank" rel="noopener" class="contact-item"><span>📄</span> SSRN Publication</a>
+  </div>
+</section>
 
-    revealEls.forEach(el => revealObserver.observe(el));
+<footer>
+  <span>Phirtia Silva</span> · Data Scientist · London, UK · 2026
+</footer>
 
-    // Skill bar animation
-    const bars = document.querySelectorAll('.bar-fill');
-    const barObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const w = parseFloat(el.dataset.width);
-          el.style.width = (w * 100) + '%';
-          el.classList.add('animated');
-          barObserver.unobserve(el);
-        }
-      });
-    }, { threshold: 0.5 });
+<script>
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const ro = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => ro.observe(el));
 
-    bars.forEach(bar => {
-      bar.style.width = '0%';
-      barObserver.observe(bar);
-    });
-
-    // Nav shrink on scroll
-    const nav = document.querySelector('nav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 60) {
-        nav.style.padding = '.75rem 4rem';
-        nav.style.borderBottomColor = 'rgba(0,194,168,0.3)';
-      } else {
-        nav.style.padding = '1.25rem 4rem';
-        nav.style.borderBottomColor = 'rgba(0,194,168,0.18)';
+  // Skill bars
+  const bars = document.querySelectorAll('.bar-fill');
+  const bo = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        el.style.width = (parseFloat(el.dataset.width) * 100) + '%';
+        bo.unobserve(el);
       }
     });
-  </script>
+  }, { threshold: 0.5 });
+  bars.forEach(b => { b.style.width = '0%'; bo.observe(b); });
 
+  // Nav shrink
+  const nav = document.getElementById('mainnav');
+  window.addEventListener('scroll', () => {
+    nav.style.padding = window.scrollY > 60 ? '.75rem 4rem' : '1.2rem 4rem';
+  });
+</script>
 </body>
 </html>
